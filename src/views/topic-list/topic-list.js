@@ -1,5 +1,6 @@
 import React from 'react'
 import { Col, Avatar, List, Tag, Pagination } from 'antd'
+import { tabSchema } from '../../utils/schema'
 
 const style = {
   root: {
@@ -12,11 +13,11 @@ const style = {
   }
 }
 
-const TopicList = ({ topics, changePage, current = 1, pageSize = 30, total = 500 } = {}) => (
+const TopicList = ({ topics, loading, pageChange, currentPage = 1, pageSize = 30, pageLen = 500 } = {}) => (
   <Col xxl={20} xl={19} lg={19} md={18} xs={24} sm={24} style={style.root}>
     <List
       itemLayout="horizontal"
-      loading={false}
+      loading={loading}
       dataSource={topics}
       renderItem={item => (
         <List.Item 
@@ -32,9 +33,15 @@ const TopicList = ({ topics, changePage, current = 1, pageSize = 30, total = 500
             title={
               <div>
                 <Tag 
-                  color={'magenta'}
+                  color={
+                    item.top ?
+                    'magenta' :
+                    item.good ?
+                    'green' :
+                    'geekblue'
+                  }
                 >
-                  {'分享'}
+                  { item.top ? '置顶' : item.good ? '精华' : tabSchema[item.tab] }
                 </Tag>
                 <a href="https://ant.design">{item.title}</a>
               </div>
@@ -48,11 +55,11 @@ const TopicList = ({ topics, changePage, current = 1, pageSize = 30, total = 500
     <Pagination 
       style={style.pagination} 
       size="small"
-      onChange={() => {}}
+      onChange={pageChange}
       showQuickJumper 
-      current={current}
+      current={currentPage}
       pageSize={pageSize}
-      total={total} 
+      total={pageLen} 
     />
   </Col>
 )

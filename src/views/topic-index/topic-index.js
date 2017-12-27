@@ -1,40 +1,10 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Row, Col, Menu } from 'antd'
+import queryString from 'query-string'
+import { getTopics } from '../../redux/topic.reducer'
 import TopicList from '../topic-list/topic-list'
 import { tabSchema } from '../../utils/schema'
-
-const topics = [
-  {
-    reply_count: 30,
-    visit_count: 400,
-    author: {
-      loginname: 'Fq',
-      avatar_url: 'https://avatars0.githubusercontent.com/u/7286498?v=4&s=120'
-    },
-    create_at: '2017-12-11',
-    title: '首届蚂蚁金服体验科技大会'
-  },
-  {
-    reply_count: 30,
-    visit_count: 400,
-    author: {
-      loginname: 'Fq',
-      avatar_url: 'https://avatars0.githubusercontent.com/u/7286498?v=4&s=120'
-    },
-    create_at: '2017-12-11',
-    title: '首届蚂蚁金服体验科技大会'
-  },
-  {
-    reply_count: 30,
-    visit_count: 400,
-    author: {
-      loginname: 'Fq',
-      avatar_url: 'https://avatars0.githubusercontent.com/u/7286498?v=4&s=120'
-    },
-    create_at: '2017-12-11',
-    title: '首届蚂蚁金服体验科技大会'
-  }
-]
 
 const style = {
   root: {
@@ -51,9 +21,59 @@ const style = {
   },
 }
 
+@connect(
+  state => state.topicReducer,
+  { getTopics }
+)
 class TopicIndex extends Component {
+  state = {
+    initTab: 'all',
+    defaultPage: 1,
+    pageSize: 10,
+    pageLen: 500
+  }
+  
+  componentDidMount() {
+    this.props.getTopics(this.getQueryData())
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location.search !== this.props.location.search) {
+      this.props.getTopics(this.getQueryData(nextProps.location.search))
+    }
+  }
+  
+  menuClick = (e) => {
+    this.props.history.push({
+      pathname: '/index',
+      search: `?tab=${e.key}`
+    })
+  }
+  
+  pageChange = (page) => {
+    const { tab } = this.getQueryData()
+    
+    this.props.history.push({
+      pathname: '/index',
+      search: `?tab=${tab}&page=${page}`
+    })
+  }
+  
+  getQueryData = (search) => {
+    const s = search || this.props.location.search
+    const q = s ? queryString.parse(s) : {}
+    const { initTab, defaultPage, pageSize } = this.state
+    return {
+      tab: q.tab || initTab,
+      page: q.page * 1 || defaultPage,
+      limit: pageSize
+    }
+  }
 
   render() {
+    const { topics, loading } = this.props
+    const { tab: tabKey, page: currentPage, limit: pageSize } = this.getQueryData()
+
     const menuItems = Object.keys(tabSchema).map((itemKey) => (
       <Menu.Item key={itemKey}>{tabSchema[itemKey]}</Menu.Item>
     ))
@@ -65,6 +85,8 @@ class TopicIndex extends Component {
             <Menu
               mode="inline"
               style={style.menuPc}
+              onClick={this.menuClick}
+              selectedKeys={[tabKey]}
             >
               { menuItems }
             </Menu>
@@ -73,11 +95,20 @@ class TopicIndex extends Component {
             <Menu
               mode="horizontal"
               style={style.menuMb}
+              onClick={this.menuClick}
+              selectedKeys={[tabKey]}
             >
               { menuItems }
             </Menu>
           </Col>
-          <TopicList topics={topics} />
+          <TopicList 
+            topics={topics} 
+            loading={loading} 
+            currentPage={currentPage}
+            pageSize={pageSize}
+            pageLen={this.state.pageLen}
+            pageChange={this.pageChange}
+          />
         </Row>
       </div>
     )
