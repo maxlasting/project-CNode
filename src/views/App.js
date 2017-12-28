@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { BackTop } from 'antd'
 
 import MainHeader from './main-header/main-header'
 import MainFooter from './main-footer/main-footer'
@@ -20,6 +21,7 @@ class App extends Component {
         <MainHeader />
         <RouterIndex />
         <MainFooter />
+        <BackTop />
       </div>
     )
   }

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { Row, Col, Menu, Dropdown, Icon, Button, Avatar } from 'antd'
 import style from './style'
-import { menuSchema } from '../../utils/schema'
+import { menuSchema, linkSchema } from '../../utils/schema'
 
 class MainHeader extends Component {
 
@@ -29,7 +30,9 @@ class MainHeader extends Component {
         {
           Object.keys(menuSchema).map((itemKey) => (
             <Menu.Item key={itemKey}>
-              <Icon type={itemKey} /> {menuSchema[itemKey]}
+              <Link to={linkSchema[itemKey]}>
+                <Icon type={itemKey} /> {menuSchema[itemKey]}
+              </Link>
             </Menu.Item>
           ))
         }
@@ -48,7 +51,9 @@ class MainHeader extends Component {
       <header style={style.root}>
         <Row style={style.fullHeight}>
           <Col xxl={4} xl={5} lg={5} md={6} xs={24} sm={24} style={style.fullHeight}>
-            <h1 style={style.title}>CNode</h1>
+            <h1 style={style.title}>
+              <Link to="/">CNode</Link>
+            </h1>
           </Col>
           <Col xxl={20} xl={19} lg={19} md={18} xs={0} sm={0} style={style.menuCol}>
             <div style={style.divLine} />
@@ -60,7 +65,9 @@ class MainHeader extends Component {
               {
                 Object.keys(menuSchema).map((itemKey) => (
                   <Menu.Item key={itemKey}>
-                    <Icon type={itemKey} /> {menuSchema[itemKey]}
+                    <Link to={linkSchema[itemKey]}>
+                      <Icon type={itemKey} /> {menuSchema[itemKey]}
+                    </Link>
                   </Menu.Item>
                 ))
               }

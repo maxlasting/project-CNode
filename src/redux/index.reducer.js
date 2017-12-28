@@ -1,4 +1,8 @@
 import { combineReducers } from 'redux'
-import { topicReducer } from './topic.reducer'
+import { topicListReducer } from './topic-list.reducer'
+import { topicDetailReducer } from './topic-detail.reducer'
 
-export default combineReducers({topicReducer})
+export default combineReducers({
+  topicListReducer,
+  topicDetailReducer,
+})

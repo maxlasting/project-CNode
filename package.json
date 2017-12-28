@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "antd": "^3.0.2",
+    "antd": "^3.0.0-rc.4",
     "autoprefixer": "7.1.6",
     "axios": "^0.17.1",
     "babel-core": "6.26.0",
@@ -34,6 +34,7 @@
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.5",
     "fs-extra": "3.0.1",
+    "github-markdown-css": "^2.9.0",
     "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
     "mongoose": "^4.13.7",

@@ -2,28 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Row, Col, Menu } from 'antd'
 import queryString from 'query-string'
-import { getTopics } from '../../redux/topic.reducer'
+import { getTopicList } from '../../redux/topic-list.reducer'
 import TopicList from '../topic-list/topic-list'
 import { tabSchema } from '../../utils/schema'
-
-const style = {
-  root: {
-    padding: '40px 0',
-    flex: 1,
-  },
-  menuPc: {
-    lineHeight: '64px', 
-    border: 'none', 
-    textAlign: 'center',
-  },
-  menuMb: {
-    paddingLeft: '10vw'
-  },
-}
+import style from './style'
 
 @connect(
-  state => state.topicReducer,
-  { getTopics }
+  state => state.topicListReducer,
+  { getTopicList }
 )
 class TopicIndex extends Component {
   state = {
@@ -34,12 +20,12 @@ class TopicIndex extends Component {
   }
   
   componentDidMount() {
-    this.props.getTopics(this.getQueryData())
+    this.props.getTopicList(this.getQueryData())
   }
   
   componentWillReceiveProps(nextProps) {
     if (nextProps.location.search !== this.props.location.search) {
-      this.props.getTopics(this.getQueryData(nextProps.location.search))
+      this.props.getTopicList(this.getQueryData(nextProps.location.search))
     }
   }
   

@@ -1,17 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Col, Avatar, List, Tag, Pagination } from 'antd'
 import { tabSchema } from '../../utils/schema'
-
-const style = {
-  root: {
-    paddingLeft: 20, 
-    paddingRight: '12vw', 
-    borderLeft: '1px solid #e9e9e9',
-  },
-  pagination: {
-    margin: '20px 0'
-  }
-}
+import style from './style'
+import formatDate from '../../utils/formatDate'
 
 const TopicList = ({ topics, loading, pageChange, currentPage = 1, pageSize = 30, pageLen = 500 } = {}) => (
   <Col xxl={20} xl={19} lg={19} md={18} xs={24} sm={24} style={style.root}>
@@ -43,10 +35,10 @@ const TopicList = ({ topics, loading, pageChange, currentPage = 1, pageSize = 30
                 >
                   { item.top ? '置顶' : item.good ? '精华' : tabSchema[item.tab] }
                 </Tag>
-                <a href="https://ant.design">{item.title}</a>
+                <Link to={`detail/${item.id}`}>{item.title}</Link>
               </div>
             }
-            description={<span>{item.author.loginname} 发表于: {item.create_at}</span>}
+            description={<span>{item.author.loginname} 发表于: {formatDate(item.create_at)}</span>}
           />
           <div />
         </List.Item>
