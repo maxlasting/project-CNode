@@ -4,13 +4,21 @@ const UserModel = require('../model')('user')
 
 async function userRegister(req, res) {
   try {
-    const { name, accesstoken } = req.body
+    const { name, accesstoken, check } = req.body
     
     const query = {
       $or: [{ name }, { accesstoken }],
     }
     
     const findDoc = await findRegisterInfo(query)
+    
+    if (check && findDoc.length) {
+      res.json({
+        success: false,
+        msg: '用户名已经存在'
+      })
+      return
+    }
     
     if (findDoc.length) {
       res.json({

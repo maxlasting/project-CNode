@@ -28,8 +28,8 @@ const style = {
 class TopicIndex extends Component {
   state = {
     initTab: 'all',
-    defaultPage: 1,
-    pageSize: 10,
+    currentPage: 1,
+    pageSize: 20,
     pageLen: 500
   }
   
@@ -62,17 +62,17 @@ class TopicIndex extends Component {
   getQueryData = (search) => {
     const s = search || this.props.location.search
     const q = s ? queryString.parse(s) : {}
-    const { initTab, defaultPage, pageSize } = this.state
+    const { initTab, currentPage, pageSize } = this.state
     return {
       tab: q.tab || initTab,
-      page: q.page * 1 || defaultPage,
+      page: q.page * 1 || currentPage,
       limit: pageSize
     }
   }
 
   render() {
     const { topics, loading } = this.props
-    const { tab: tabKey, page: currentPage, limit: pageSize } = this.getQueryData()
+    const { tab: tabKey, page: currentPage } = this.getQueryData()
 
     const menuItems = Object.keys(tabSchema).map((itemKey) => (
       <Menu.Item key={itemKey}>{tabSchema[itemKey]}</Menu.Item>
@@ -105,7 +105,7 @@ class TopicIndex extends Component {
             topics={topics} 
             loading={loading} 
             currentPage={currentPage}
-            pageSize={pageSize}
+            pageSize={this.state.pageSize}
             pageLen={this.state.pageLen}
             pageChange={this.pageChange}
           />

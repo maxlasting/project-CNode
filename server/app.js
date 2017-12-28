@@ -24,12 +24,10 @@ app.use(session({
   })
 }))
 
-app.use('/api/user/status', require('./router/status'))
 app.use('/api/user/login', require('./router/login'))
 app.use('/api/user/logout', require('./router/logout'))
 app.use('/api/user/register', require('./router/register'))
-app.use('/api/user/check', require('./router/check'))
-app.use('/api', require('./router/proxy'))
+app.use('/api', require('./router/cnode'))
 
 app.use((err, req, res, next) => {
   console.log(err)
