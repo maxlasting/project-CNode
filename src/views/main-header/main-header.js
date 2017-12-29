@@ -1,26 +1,35 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Row, Col, Menu, Dropdown, Icon, Button, Avatar } from 'antd'
 import style from './style'
 import { menuSchema, linkSchema } from '../../utils/schema'
+import { userLogOut } from '../../redux/login.reducer'
 
+@connect(
+  state => state.loginReducer,
+  { userLogOut }
+)
 class MainHeader extends Component {
 
   render() {
+    const { isLogin, avatar_url, loginname } = this.props
     const longinMenu = (
       <Dropdown 
         overlay={
           <Menu style={style.loginMenu}>
             <Menu.Item>发布话题</Menu.Item>
             <Menu.Item>用户中心</Menu.Item>
-            <Menu.Item>退出登陆</Menu.Item>
+            <Menu.Item>
+              <span style={{display: 'block', width: '100%', height: '100%'}} onClick={this.props.userLogOut}>退出登陆</span>
+            </Menu.Item>
           </Menu>
         }
         placement="bottomCenter"
       >
         <div style={style.avatar}>
-          <Avatar size="small" icon="user" />
-          <h3 style={{margin: '0 5px'}}>Fq</h3>
+          <Avatar size="small" icon="user" src={avatar_url} />
+          <h3 style={{margin: '0 5px'}}>{loginname}</h3>
         </div>
       </Dropdown>
     )
@@ -37,13 +46,28 @@ class MainHeader extends Component {
           ))
         }
         <Menu.Divider />
-        <Menu.Item>
-          {/* <Icon type="user" /> 登陆 */}
-          {longinMenu}
-        </Menu.Item>
-        {/* <Menu.Item>
-          <Icon type="flag" /> 注册
-        </Menu.Item> */}
+        {
+          isLogin ?
+          <Menu.Item>
+            { longinMenu }
+          </Menu.Item> : null
+        }
+        {
+          !isLogin ?
+          <Menu.Item>
+            <Link to="/login">
+              <Icon type="user" /> 登陆
+            </Link>
+          </Menu.Item> : null
+        }
+        {
+          !isLogin ?
+          <Menu.Item>
+            <Link to="/register">
+              <Icon type="flag" /> 注册
+            </Link>
+          </Menu.Item> : null
+        }
       </Menu>
     )
 
@@ -73,11 +97,22 @@ class MainHeader extends Component {
               }
             </Menu>
             <div style={{float: 'right', height: '100%', display: 'flex', alignItems: 'center'}}>
-              {/* <div>
-                <Button style={{marginRight: 2}}><Icon type="user" />登陆</Button>
-                <Button style={{marginLeft: 2}}><Icon type="flag" />注册</Button>
-              </div> */}
-              {longinMenu}
+              {
+                isLogin ? 
+                longinMenu :
+                <div>
+                  <Link to="/login">
+                    <Button style={{marginRight: 2}}>
+                      <Icon type="user" /> 登陆
+                    </Button>
+                  </Link>
+                  <Link to="/register">
+                    <Button style={{marginLeft: 2}}>
+                      <Icon type="flag" /> 注册
+                    </Button>
+                  </Link>
+                </div>
+              }
             </div>
           </Col>
         </Row>

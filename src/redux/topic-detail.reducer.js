@@ -3,7 +3,7 @@ import axios from 'axios'
 const GET_DETAIL_SUCC = 'GET_DETAIL_SUCC'
 const GET_DETAIL_ERR = 'GET_DETAIL_ERR'
 const LOADING = 'LOADING'
-const LOADEND = 'LOADENG'
+const LOADEND = 'LOADEND'
 
 const init = {
   loading: false,

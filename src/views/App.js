@@ -4,6 +4,7 @@ import { BackTop } from 'antd'
 import MainHeader from './main-header/main-header'
 import MainFooter from './main-footer/main-footer'
 import RouterIndex from '../router/index'
+import CheckLogin from '../components/check-login'
 
 const style = {
   root: {
@@ -18,6 +19,7 @@ class App extends Component {
   render() {
     return (
       <div style={style.root}>
+        <CheckLogin />
         <MainHeader />
         <RouterIndex />
         <MainFooter />

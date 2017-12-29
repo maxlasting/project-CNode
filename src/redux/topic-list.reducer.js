@@ -3,7 +3,7 @@ import axios from 'axios'
 const GET_TOPICS_SUCC = 'GET_TOPICS_SUCC'
 const GET_TOPICS_ERR = 'GET_TOPICS_ERR'
 const LOADING = 'LOADING'
-const LOADEND = 'LOADENG'
+const LOADEND = 'LOADEND'
 
 const init = {
   loading: false,

@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
   
   if (check) {
     const user = req.session.user || {}
-    if (!user.accesstoken) return res.json({ success: false, isLogin: false})
+    if (!user.accesstoken) return res.json({ success: false, msg: '未登录' })
     return userLogin(user.accesstoken, req, res)
   }
 
