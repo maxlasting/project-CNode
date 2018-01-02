@@ -12,10 +12,12 @@ module.exports = async (req, res, next) => {
   }
 
   UserModel.findOne({name, password: md5Pwd(password)}, (err, doc) => {
-    if (err) {
+    if (err) return next(err)
+    
+    if (!doc) {
       res.json({
         success: false,
-        msg: '用户名或密码错误',
+        msg: '用户名或密码错误'
       })
       return
     }

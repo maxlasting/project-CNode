@@ -4,7 +4,7 @@ const UserModel = require('../model')('user')
 
 async function userRegister(req, res) {
   try {
-    const { name, accesstoken, check } = req.body
+    const { name, password, accesstoken, check } = req.body
     
     const query = {
       $or: [{ name }, { accesstoken }],
@@ -18,6 +18,13 @@ async function userRegister(req, res) {
         msg: '用户名已经存在'
       })
       return
+    } 
+
+    if (check && !findDoc.length) {
+      res.json({
+        success: true
+      })
+      return
     }
     
     if (findDoc.length) {
@@ -29,7 +36,7 @@ async function userRegister(req, res) {
     }
 
     const checkTokenResult = await checkToken(accesstoken)
-
+    console.log(checkTokenResult)
     if (!checkTokenResult.success) {
       res.json({
         success: false,

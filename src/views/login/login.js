@@ -1,34 +1,10 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {Row, Col, Form, Input, Icon, Button, Checkbox} from 'antd'
 import { userLogin } from '../../redux/login.reducer'
+import style  from './style.js'
 
 const FormItem = Form.Item
-
-const style = {
-  root: {
-    flex: 1,
-    padding: '40px 80px',
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  formContainer: {
-    margin: '0 auto',
-    width: '20%',
-    minWidth: 360
-  },
-  title: {
-    textAlign: 'center',
-    margin: '20px 0'
-  },
-  submitBtn: {
-    width: '100%'
-  },
-  forgot: {
-    float: 'right'
-  }
-}
 
 @connect(
   state => state.loginReducer,
@@ -37,6 +13,12 @@ const style = {
 class Login extends Component {
   componentWillMount() {
     if (this.props.isLogin) {
+      this.props.history.push('/')
+    }
+  }
+  
+  componentWillUpdate(nextProps) {
+    if (nextProps.isLogin) {
       this.props.history.push('/')
     }
   }
@@ -53,11 +35,11 @@ class Login extends Component {
   render() {
     const { getFieldDecorator } = this.props.form
     return (
-      <div style={style.root}>
-        {this.props.isLogin ? <Redirect to="/" /> : null}
-        <div style={style.formContainer}>
+      <Row>
+        <Col xxl={4} xl={3} lg={3} md={2} xs={2} sm={0} />
+        <Col xxl={16} xl={18} lg={18} md={20} xs={20} sm={24} style={style.root}>
           <h2 style={style.title}>用户登录</h2>
-          <Form onSubmit={this.userLogin}>
+          <Form onSubmit={this.userLogin} style={style.formContainer}>
             <FormItem label={'用户名'}>
               {getFieldDecorator('name', {
                 rules: [{ required: true, message: '请输入用户名!' }],
@@ -86,8 +68,9 @@ class Login extends Component {
               没有账号？ <a href="">现在注册!</a>
             </FormItem>
           </Form>
-        </div>
-      </div>
+        </Col>
+        <Col xxl={4} xl={3} lg={3} md={2} xs={2} sm={0} />  
+      </Row>
     )
   }
 }
