@@ -35,7 +35,7 @@ const TopicList = ({ topics, loading, pageChange, currentPage = 1, pageSize = 30
                 >
                   { item.top ? '置顶' : item.good ? '精华' : tabSchema[item.tab] }
                 </Tag>
-                <Link to={`detail/${item.id}`}>{item.title}</Link>
+                <Link to={`/detail/${item.id}`}>{item.title}</Link>
               </div>
             }
             description={<span>{item.author.loginname} 发表于: {formatDate(item.create_at)}</span>}

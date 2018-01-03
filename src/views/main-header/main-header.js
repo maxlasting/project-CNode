@@ -18,10 +18,20 @@ class MainHeader extends Component {
       <Dropdown 
         overlay={
           <Menu style={style.loginMenu}>
-            <Menu.Item>发布话题</Menu.Item>
-            <Menu.Item>用户中心</Menu.Item>
             <Menu.Item>
-              <span style={{display: 'block', width: '100%', height: '100%'}} onClick={this.props.userLogOut}>退出登陆</span>
+              <span style={style.userStyle}>
+                发布话题
+              </span>
+            </Menu.Item>
+            <Menu.Item>
+              <Link to={`/user/${loginname}`}>
+                用户中心
+              </Link>
+            </Menu.Item>
+            <Menu.Item>
+              <span style={style.userStyle} onClick={this.props.userLogOut}>
+                退出登陆
+              </span>
             </Menu.Item>
           </Menu>
         }

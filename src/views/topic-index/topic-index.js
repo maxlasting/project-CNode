@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Row, Col, Menu } from 'antd'
 import queryString from 'query-string'
+import { Helmet } from 'react-helmet'
 import { getTopicList } from '../../redux/topic-list.reducer'
 import TopicList from '../topic-list/topic-list'
 import { tabSchema } from '../../utils/schema'
@@ -65,38 +66,39 @@ class TopicIndex extends Component {
     ))
     
     return (
-      <div style={style.root}>
-        <Row>
-          <Col xxl={4} xl={5} lg={5} md={6} xs={0} sm={0}>
-            <Menu
-              mode="inline"
-              style={style.menuPc}
-              onClick={this.menuClick}
-              selectedKeys={[tabKey]}
-            >
-              { menuItems }
-            </Menu>
-          </Col>
-          <Col xxl={0} xl={0} lg={0} md={0} xs={24} sm={24}>
-            <Menu
-              mode="horizontal"
-              style={style.menuMb}
-              onClick={this.menuClick}
-              selectedKeys={[tabKey]}
-            >
-              { menuItems }
-            </Menu>
-          </Col>
-          <TopicList 
-            topics={topics} 
-            loading={loading} 
-            currentPage={currentPage}
-            pageSize={this.state.pageSize}
-            pageLen={this.state.pageLen}
-            pageChange={this.pageChange}
-          />
-        </Row>
-      </div>
+      <Row>
+        <Helmet>
+          <title>CNode</title>
+        </Helmet>
+        <Col xxl={4} xl={5} lg={5} md={6} xs={0} sm={0}>
+          <Menu
+            mode="inline"
+            style={style.menuPc}
+            onClick={this.menuClick}
+            selectedKeys={[tabKey]}
+          >
+            { menuItems }
+          </Menu>
+        </Col>
+        <Col xxl={0} xl={0} lg={0} md={0} xs={24} sm={24}>
+          <Menu
+            mode="horizontal"
+            style={style.menuMb}
+            onClick={this.menuClick}
+            selectedKeys={[tabKey]}
+          >
+            { menuItems }
+          </Menu>
+        </Col>
+        <TopicList 
+          topics={topics} 
+          loading={loading} 
+          currentPage={currentPage}
+          pageSize={this.state.pageSize}
+          pageLen={this.state.pageLen}
+          pageChange={this.pageChange}
+        />
+      </Row>
     )
   }
 

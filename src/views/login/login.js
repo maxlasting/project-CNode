@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {Row, Col, Form, Input, Icon, Button, Checkbox} from 'antd'
+import { Row, Col, Form, Input, Icon, Button, Checkbox, message } from 'antd'
 import { userLogin } from '../../redux/login.reducer'
 import style  from './style.js'
 
@@ -21,6 +21,17 @@ class Login extends Component {
     if (nextProps.isLogin) {
       this.props.history.push('/')
     }
+  }
+  
+  componentDidUpdate() {
+    if (this.props.msg) this.messageInfo(
+      this.props.success,
+      this.props.msg
+    )
+  }
+  
+  messageInfo = (status, info = '') => {
+    message[status ? 'info' : 'error'](info)
   }
   
   userLogin = (e) => {
@@ -62,7 +73,7 @@ class Login extends Component {
                 <Checkbox>记住我</Checkbox>
               )}
               <a style={style.forgot} href="">忘记密码？</a>
-              <Button type="primary" htmlType="submit" style={style.submitBtn}>
+              <Button type="primary" htmlType="submit" style={style.submitBtn} loading={this.props.loading}>
                 登录
               </Button>
               没有账号？ <a href="">现在注册!</a>

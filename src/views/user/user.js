@@ -1,0 +1,103 @@
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
+import { Row, Col, Card, Avatar, List } from 'antd'
+import axios from 'axios'
+import formatDate from '../../utils/formatDate'
+
+class User extends Component {
+  state = {
+    loginname: '',
+    avatar_url: '',
+    githubUsername: '',
+    create_at: '',
+    score: 0,
+    recent_topics: [],
+    recent_replies: [],
+    loading: false,
+  }
+  
+  componentDidMount() {
+    this.getUserInfo(this.props.match.params.name)
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.match.params.name !== this.props.match.params.name) {
+      this.getUserInfo(nextProps.match.params.name)
+    }
+  }
+  
+  getUserInfo = (name) => {
+    this.setState({loading: true})
+    axios.get('/api/user/' + name).then((res) => {
+      if (res.status === 200 && res.data.success) {
+        this.setState({
+          ...res.data.data,
+          loading: false,
+        })
+      }
+    })
+  }
+  
+  render() {
+    const { loginname, avatar_url, score, create_at, recent_topics, recent_replies, loading }  = this.state
+    
+    const topicList = (title, data) => (
+      <Card title={title} bordered={false} loading={loading}>
+        <List
+          itemLayout="horizontal"
+          dataSource={data.slice(0, 3)}
+          split={false}
+          renderItem={(item) => (
+            <List.Item>
+              <List.Item.Meta
+                avatar={<Avatar src={item.author.avatar_url} />}
+                title={
+                  <div>
+                    <Link to={`/detail/${item.id}`}>{item.title}</Link>
+                  </div>
+                }
+                description={<span>{item.author.loginname} 时间: {formatDate(item.last_reply_at)}</span>}
+              />
+              <div />
+            </List.Item>
+          )} 
+        />
+        <List.Item style={{paddingLeft: '1vw'}}>
+          <Link to="/">查看更多</Link>
+        </List.Item>
+      </Card>
+    )
+    
+    return (
+      <Row style={{padding: '0 5vw'}}>
+        <Helmet>
+          <title>用户中心</title>
+        </Helmet>
+        <Col span={24}>
+          <Card title="用户信息" bordered={false} loading={loading}>
+            <List split={false}>
+              <List.Item>
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                  <Avatar icon="user" src={avatar_url} />
+                  <span style={{margin: '0 10px'}}>{loginname}</span>
+                </div>
+              </List.Item>
+              <List.Item>
+                {score} 积分
+              </List.Item>
+              <List.Item>
+                注册日期：{formatDate(create_at)}
+              </List.Item>
+            </List>
+          </Card>
+          { topicList('最近创建的话题', recent_topics) }
+          { topicList('最近参与的话题', recent_replies) }
+        </Col>
+      </Row>
+    )
+  }
+
+}
+
+export default User

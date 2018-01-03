@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
   
   if (check) {
     const user = req.session.user || {}
-    if (!user.accesstoken) return res.json({ success: false, msg: '未登录' })
+    if (!user.accesstoken) return res.json({ success: false, msg: '' })
     return userLogin(user.accesstoken, req, res)
   }
 
@@ -34,7 +34,10 @@ const userLogin = (accesstoken, req, res) => {
       req.session.user = {
         accesstoken
       }
-      res.json(data)
+      res.json({
+        ...data,
+        msg: '登录成功'
+      })
     } else {
       res.status(status).json({
         success: false,

@@ -14,27 +14,27 @@ const init = {
 
 export function loginReducer(state = init, action) {
   if (action.type === LOGIN_SUCC) {
-    return { ...state, isLogin: true, ...action.payload }
+    return { ...state, isLogin: true, msg: '', ...action.payload }
   }
   
   if (action.type === LOGIN_ERR) {
-    return { ...state, isLogin: false, ...action.payload }
+    return { ...state, isLogin: false, msg: '', ...action.payload }
   }
   
   if (action.type === LOGOUT_SUCC) {
-    return { ...state, isLogin: false, loading: false, ...action.payload }
+    return { ...state, isLogin: false, msg: '', loading: false, ...action.payload }
   }
   
   if (action.type === LOGOUT_ERR) {
-    return { ...state, loading: false, ...action.payload }
+    return { ...state, loading: false, msg: '', ...action.payload }
   }
   
   if (action.type === LOADING) {
-    return { ...state, loading: true }
+    return { ...state, msg: '', loading: true }
   }
   
   if (action.type === LOADEND) {
-    return { ...state, loading: false }
+    return { ...state,  msg: '', loading: false }
   }
   
   return state

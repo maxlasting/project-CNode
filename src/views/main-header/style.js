@@ -44,4 +44,10 @@ export default {
     padding: '4px 0',
     cursor: 'pointer',
   },
+  userStyle: {
+    display: 'block', 
+    width: '100%', 
+    height: '100%',
+    textAlign: 'center',
+  },
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Row, Col, Card, Avatar, Button, Tag, List } from 'antd'
+import { Helmet } from 'react-helmet'
 import 'github-markdown-css'
 import { getTopicDetail } from '../../redux/topic-detail.reducer'
 import { tabSchema } from '../../utils/schema'
@@ -33,7 +34,7 @@ class TopicDetail extends Component {
             </Tag>
             <span style={{margin: '0 8px', display: 'flex', alignItems: 'center'}}>
               <Avatar size="small" icon="user" src={detail.author.avatar_url} style={{marginRight: 3}} />
-              <Link to="/">{detail.author.loginname}</Link>
+              <Link to={`/user/${detail.author.loginname}`}>{detail.author.loginname}</Link>
             </span>
             <span style={{margin: '0 8px'}}>发表于: {formatDate(detail.create_at)}</span>
           </div> : null
@@ -43,6 +44,9 @@ class TopicDetail extends Component {
     
     return (
       <Row>
+        <Helmet>
+          <title>{detail.title}</title>
+        </Helmet>
         <Col xxl={4} xl={3} lg={3} md={2} xs={2} sm={0} />
         <Col xxl={16} xl={18} lg={18} md={20} xs={20} sm={24} >
           <div>

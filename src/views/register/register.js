@@ -195,7 +195,7 @@ class Register extends Component {
               )}
             </FormItem>
             <FormItem>
-              <Button type="primary" htmlType="submit" loading={this.props.loading} style={style.submitBtn}>注册</Button>
+              <Button type="primary" htmlType="submit" loading={this.props.registerReducer.loading} style={style.submitBtn}>注册</Button>
             </FormItem>
           </Form>
         </Col>
