@@ -4,6 +4,8 @@ const GET_DETAIL_SUCC = 'GET_DETAIL_SUCC'
 const GET_DETAIL_ERR = 'GET_DETAIL_ERR'
 const LOADING = 'LOADING'
 const LOADEND = 'LOADEND'
+const COLLECT = 'COLLECT'
+const DECOLLECT = 'DECOLLECT'
 
 const init = {
   loading: false,
@@ -30,24 +32,32 @@ export function topicDetailReducer(state = init, action) {
   }
   
   if (action.type === GET_DETAIL_ERR) {
-    return { ...state, msg: action.msg }
+    return { ...state, msg: action.payload.msg }
   }
   
   if (action.type === LOADING) {
-    return { ...state, loading: true }
+    return { ...state, msg: '', loading: true }
   }
   
   if (action.type === LOADEND) {
-    return { ...state, loading: false }
+    return { ...state, msg: '', loading: false }
+  }
+  
+  if (action.type === COLLECT) {
+    return { ...state, detail: {...state.detail, is_collect: true}, msg: action.payload.msg }
+  }
+  
+  if (action.type === DECOLLECT) {
+    return { ...state, detail: {...state.detail, is_collect: false}, msg: action.payload.msg }
   }
   
   return state
 }
 
-export function getTopicDetail(topicId) {
+export function getTopicDetail(topicId, needtoken) {
   return (dispatch) => {
     dispatch({ type: LOADING })
-    axios.get('/api/topic/' + topicId).then((res) => {
+    axios.get('/api/topic/' + topicId + '?needtoken=' + needtoken).then((res) => {
       if (res.status === 200 && res.data.success) {
         dispatch({type: GET_DETAIL_SUCC, payload: res.data})
       } else {
@@ -64,7 +74,42 @@ export function getTopicDetail(topicId) {
   }
 }
 
+export function topicCollect(topic_id) {
+  return (dispatch) => {
+    axios.post('/api/topic_collect/collect?needtoken=true', {
+      topic_id
+    }).then((res) => {
+      if (res.status === 200 && res.data.success) {
+        dispatch({type: COLLECT, payload: {msg: ''}})
+      }
+    }).catch((err) => {
+      if (err.response) {
+        dispatch({ type: COLLECT, payload: {msg: '发生错误'} })
+      } else {
+        dispatch({ type: COLLECT, payload: {msg: err.message} })
+      }
+    })
+  }
+}
 
+export function topicDeCollect(topic_id) {
+  return (dispatch) => {
+    axios.post('/api/topic_collect/de_collect?needtoken=true', {
+      topic_id
+    }).then((res) => {
+      if (res.status === 200 && res.data.success) {
+        dispatch({type: DECOLLECT, payload: {msg: ''}})
+      }
+    }).catch((err) => {
+      console.log(err)
+      if (err.response) {
+        dispatch({ type: DECOLLECT, payload: {msg: '发生错误'}})
+      } else {
+        dispatch({ type: DECOLLECT, payload: {msg: err.message} })
+      }
+    })
+  }
+}
 
 
 

@@ -1,31 +1,63 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Row, Col, Card, Avatar, Button, Tag, List } from 'antd'
+import { Row, Col, Card, Avatar, Button, Tag, List, message } from 'antd'
 import { Helmet } from 'react-helmet'
 import 'github-markdown-css'
-import { getTopicDetail } from '../../redux/topic-detail.reducer'
+import { getTopicDetail, topicCollect, topicDeCollect } from '../../redux/topic-detail.reducer'
 import { tabSchema } from '../../utils/schema'
 import formatDate from '../../utils/formatDate'
 
 @connect(
   state => state,
-  { getTopicDetail }
+  { getTopicDetail, topicCollect, topicDeCollect }
 )
 class TopicDetail extends Component {
+  state = {
+    isCollect: false
+  }
+  
   componentDidMount() {
     const topicId = this.props.match.params.id
-    this.props.getTopicDetail(topicId)
+    const { isLogin } = this.props.loginReducer 
+    this.props.getTopicDetail(topicId, isLogin)
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.topicDetailReducer.detail.is_collect !== this.props.topicDetailReducer.detail.is_collect) {
+      this.setState({
+        isCollect: nextProps.topicDetailReducer.detail.is_collect
+      })
+    }
+  }
+  
+  componentDidUpdate() {
+    const { msg } = this.props.topicDetailReducer
+    msg && this.messageInfo(msg)
+  }
+  
+  messageInfo = (msg) => {
+    message.info(msg)
+  }
+  
+  setTopicCollect = (id) => {
+    const { isCollect } = this.state
+    if (isCollect) {
+      this.props.topicDeCollect(id)
+    } else {
+      this.props.topicCollect(id)
+    }
   }
   
   render() {
     const { detail, loading } = this.props.topicDetailReducer
-    // console.log(detail)
+    const { isLogin } = this.props.loginReducer
+    const { isCollect } = this.state
     
     const title = (
       <div>
         <h2 style={{fontSize: '26px', wordWrap:'break-word', whiteSpace: 'pre-wrap'}}>{detail.title}</h2>
-        <br/>
+        <br />
         {
           detail.content ?
           <div style={{display: 'flex', alignItems: 'center'}}>
@@ -37,6 +69,17 @@ class TopicDetail extends Component {
               <Link to={`/user/${detail.author.loginname}`}>{detail.author.loginname}</Link>
             </span>
             <span style={{margin: '0 8px'}}>发表于: {formatDate(detail.create_at)}</span>
+            {
+              isLogin ? 
+              <Button 
+                type={isCollect ? 'dashed' : "default"}
+                style={{margin: '0 10px'}}
+                onClick={() => {this.setTopicCollect(detail.id)}}
+              >
+                {isCollect ? '取消收藏' : '添加收藏'}
+              </Button> :
+              null
+            }
           </div> : null
         }
       </div>
@@ -54,7 +97,6 @@ class TopicDetail extends Component {
               bordered={false}
               title={title}
               loading={loading}
-              extra={detail.content ? <Button type="danger" style={{marginTop: 40}}>收藏</Button> : null}
             >
               <p className="markdown-body" dangerouslySetInnerHTML={{__html: detail.content}}></p>
             </Card>

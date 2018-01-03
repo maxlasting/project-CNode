@@ -15,6 +15,7 @@ class User extends Component {
     recent_topics: [],
     recent_replies: [],
     loading: false,
+    collects: []
   }
   
   componentDidMount() {
@@ -28,19 +29,32 @@ class User extends Component {
   }
   
   getUserInfo = (name) => {
+    const info = axios.get('/api/user/' + name)
+    const collect = axios.get('/api/topic_collect/' + name)
+    
     this.setState({loading: true})
-    axios.get('/api/user/' + name).then((res) => {
-      if (res.status === 200 && res.data.success) {
-        this.setState({
-          ...res.data.data,
-          loading: false,
-        })
-      }
-    })
+    
+    axios.all([info, collect]).then(axios.spread((acce, perms) => {
+      this.setState({
+        ...acce.data.data,
+        collects: perms.data.data,
+        loading: false,
+      })
+    }))
+    
+    
+    // axios.get('/api/user/' + name).then((res) => {
+    //   if (res.status === 200 && res.data.success) {
+    //     this.setState({
+    //       ...res.data.data,
+    //       loading: false,
+    //     })
+    //   }
+    // })
   }
   
   render() {
-    const { loginname, avatar_url, score, create_at, recent_topics, recent_replies, loading }  = this.state
+    const { loginname, avatar_url, score, create_at, recent_topics, recent_replies, loading, collects }  = this.state
     
     const topicList = (title, data) => (
       <Card title={title} bordered={false} loading={loading}>
@@ -63,7 +77,7 @@ class User extends Component {
             </List.Item>
           )} 
         />
-        <List.Item style={{paddingLeft: '1vw'}}>
+        <List.Item>
           <Link to="/">查看更多</Link>
         </List.Item>
       </Card>
@@ -91,8 +105,9 @@ class User extends Component {
               </List.Item>
             </List>
           </Card>
-          { topicList('最近创建的话题', recent_topics) }
-          { topicList('最近参与的话题', recent_replies) }
+          { topicList('收藏的话题', collects) }
+          { topicList('创建的话题', recent_topics) }
+          { topicList('参与的话题', recent_replies) }
         </Col>
       </Row>
     )
