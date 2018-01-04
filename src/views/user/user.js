@@ -41,16 +41,6 @@ class User extends Component {
         loading: false,
       })
     }))
-    
-    
-    // axios.get('/api/user/' + name).then((res) => {
-    //   if (res.status === 200 && res.data.success) {
-    //     this.setState({
-    //       ...res.data.data,
-    //       loading: false,
-    //     })
-    //   }
-    // })
   }
   
   render() {

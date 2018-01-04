@@ -19,9 +19,12 @@ class MainHeader extends Component {
         overlay={
           <Menu style={style.loginMenu}>
             <Menu.Item>
-              <span style={style.userStyle}>
+              {/* <span style={style.userStyle}>
                 发布话题
-              </span>
+              </span> */}
+              <Link to='/write'>
+                发布话题
+              </Link>
             </Menu.Item>
             <Menu.Item>
               <Link to={`/user/${loginname}`}>

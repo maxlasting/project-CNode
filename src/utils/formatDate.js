@@ -1,3 +1,3 @@
 export default (date) => {
-  return date.split('T').join(' ').split('.')[0]
+  return date.split('T')[0]
 }

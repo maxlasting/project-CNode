@@ -6,6 +6,7 @@ import TopicDetail from '../views/topic-detail/topic-detail'
 import Register from '../views/register/register'
 import Login from '../views/login/login'
 import User from '../views/user/user'
+import Write from '../views/write/write'
 
 export default () => (
   <div style={{flex: 1, padding: '20px 0 40px'}}>
@@ -16,6 +17,7 @@ export default () => (
       <Route path="/register" component={Register} />
       <Route path="/login" component={Login} />
       <Route path="/user/:name" component={User} />
+      <Route path="/write" component={Write} />
     </Switch>
   </div>
 )

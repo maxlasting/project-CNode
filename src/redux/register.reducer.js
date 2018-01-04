@@ -12,11 +12,11 @@ const init = {
 
 export function registerReducer(state = init, action) {
   if (action.type === REG_SUCC) {
-    return { ...state, msg: '', ...action.payload }
+    return { ...state, ...action.payload }
   }
   
   if (action.type === REG_ERR) {
-    return { ...state, msg: '', ...action.payload }
+    return { ...state, ...action.payload }
   }
   
   if (action.type === LOADING) {

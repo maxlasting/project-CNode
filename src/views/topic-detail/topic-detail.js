@@ -1,26 +1,27 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Row, Col, Card, Avatar, Button, Tag, List, message } from 'antd'
+import { Row, Col, Card, Avatar, Button, Tag, List, message, Divider } from 'antd'
 import { Helmet } from 'react-helmet'
 import 'github-markdown-css'
-import { getTopicDetail, topicCollect, topicDeCollect } from '../../redux/topic-detail.reducer'
+import { getTopicDetail, topicCollect, topicDeCollect, topicReply } from '../../redux/topic-detail.reducer'
 import { tabSchema } from '../../utils/schema'
 import formatDate from '../../utils/formatDate'
+import Markdown from '../../components/markdown'
 
 @connect(
   state => state,
-  { getTopicDetail, topicCollect, topicDeCollect }
+  { getTopicDetail, topicCollect, topicDeCollect, topicReply }
 )
 class TopicDetail extends Component {
   state = {
-    isCollect: false
+    isCollect: false,
   }
   
   componentDidMount() {
     const topicId = this.props.match.params.id
     const { isLogin } = this.props.loginReducer 
-    this.props.getTopicDetail(topicId, isLogin)
+    this.props.getTopicDetail(topicId, isLogin ? 'yes' : '')
   }
   
   componentWillReceiveProps(nextProps) {
@@ -40,6 +41,11 @@ class TopicDetail extends Component {
     message.info(msg)
   }
   
+  handleSubmit = (content) => {
+    const topicId = this.props.match.params.id
+    this.props.topicReply(topicId, content)
+  }
+  
   setTopicCollect = (id) => {
     const { isCollect } = this.state
     if (isCollect) {
@@ -53,7 +59,6 @@ class TopicDetail extends Component {
     const { detail, loading } = this.props.topicDetailReducer
     const { isLogin } = this.props.loginReducer
     const { isCollect } = this.state
-    
     const title = (
       <div>
         <h2 style={{fontSize: '26px', wordWrap:'break-word', whiteSpace: 'pre-wrap'}}>{detail.title}</h2>
@@ -91,7 +96,7 @@ class TopicDetail extends Component {
           <title>{detail.title}</title>
         </Helmet>
         <Col xxl={4} xl={3} lg={3} md={2} xs={2} sm={0} />
-        <Col xxl={16} xl={18} lg={18} md={20} xs={20} sm={24} >
+        <Col xxl={16} xl={18} lg={18} md={20} xs={20} sm={24}>
           <div>
             <Card 
               bordered={false}
@@ -130,6 +135,8 @@ class TopicDetail extends Component {
                   </List.Item>
                 )}
               />
+              <Divider />
+              <Markdown handleSubmit={this.handleSubmit} height={260} />
             </Card>
           </div>
         </Col>

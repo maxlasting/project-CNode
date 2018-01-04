@@ -4,8 +4,9 @@ const GET_DETAIL_SUCC = 'GET_DETAIL_SUCC'
 const GET_DETAIL_ERR = 'GET_DETAIL_ERR'
 const LOADING = 'LOADING'
 const LOADEND = 'LOADEND'
-const COLLECT = 'COLLECT'
-const DECOLLECT = 'DECOLLECT'
+const COLLECT = 'COLLECT'  // 收藏
+const DECOLLECT = 'DECOLLECT'  // 取消收藏
+const REPLY = 'REPLY'  // 回复主题
 
 const init = {
   loading: false,
@@ -32,7 +33,7 @@ export function topicDetailReducer(state = init, action) {
   }
   
   if (action.type === GET_DETAIL_ERR) {
-    return { ...state, msg: action.payload.msg }
+    return { ...state, success: action.payload.success, msg: action.payload.msg }
   }
   
   if (action.type === LOADING) {
@@ -51,6 +52,10 @@ export function topicDetailReducer(state = init, action) {
     return { ...state, detail: {...state.detail, is_collect: false}, msg: action.payload.msg }
   }
   
+  if (action.type === REPLY) {
+    return { ...state, ...action.payload }
+  }
+  
   return state
 }
 
@@ -61,7 +66,7 @@ export function getTopicDetail(topicId, needtoken) {
       if (res.status === 200 && res.data.success) {
         dispatch({type: GET_DETAIL_SUCC, payload: res.data})
       } else {
-        dispatch({type: GET_DETAIL_ERR, msg: res.data.msg})
+        dispatch({type: GET_DETAIL_ERR, payload: {msg: res.data.msg}})
       }
       dispatch({ type: LOADEND })
     }).catch((err) => {
@@ -70,6 +75,7 @@ export function getTopicDetail(topicId, needtoken) {
       } else {
         dispatch({ type: GET_DETAIL_ERR, payload: {msg: err.message} })
       }
+      dispatch({ type: LOADEND })
     })
   }
 }
@@ -107,6 +113,28 @@ export function topicDeCollect(topic_id) {
       } else {
         dispatch({ type: DECOLLECT, payload: {msg: err.message} })
       }
+    })
+  }
+}
+
+export function topicReply(topic_id, content, reply_id = '') {
+  return (dispatch) => {
+    dispatch({ type: LOADING })
+    axios.post('/api/topic/'+topic_id+'/replies?needtoken=true', {
+      content,
+      reply_id,
+    }).then((res) => {
+      if (res.status === 200 && res.data.success) {
+        axios.get('/api/topic/' + topic_id + '?needtoken=yes').then((res) => {
+          if (res.status === 200 && res.data.success) {
+            dispatch({type: GET_DETAIL_SUCC, payload: res.data})
+          } else {
+            dispatch({type: GET_DETAIL_ERR, payload: {msg: res.data.msg}})
+          }
+          dispatch({ type: LOADEND })
+        })
+      }
+      dispatch({ type: LOADEND })
     })
   }
 }
