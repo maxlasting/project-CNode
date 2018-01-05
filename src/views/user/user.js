@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { Row, Col, Card, Avatar, List } from 'antd'
 import axios from 'axios'
 import formatDate from '../../utils/formatDate'
 
+@connect(
+  (state) => (state.loginReducer)
+)
 class User extends Component {
   state = {
     loginname: '',
@@ -18,11 +22,20 @@ class User extends Component {
     collects: []
   }
   
+  componentWillMount() {
+    if (!this.props.isLogin) {
+      this.props.history.replace('/')
+    }
+  }
+  
   componentDidMount() {
     this.getUserInfo(this.props.match.params.name)
   }
   
   componentWillReceiveProps(nextProps) {
+    if (!nextProps.isLogin) {
+      this.props.history.replace('/')
+    }
     if (nextProps.match.params.name !== this.props.match.params.name) {
       this.getUserInfo(nextProps.match.params.name)
     }
@@ -74,7 +87,7 @@ class User extends Component {
     )
     
     return (
-      <Row style={{padding: '0 5vw'}}>
+      <Row style={{padding: '0 5vw', flex: 1}}>
         <Helmet>
           <title>用户中心</title>
         </Helmet>

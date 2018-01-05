@@ -33,7 +33,7 @@ const TopicList = ({ topics, loading, pageChange, currentPage = 1, pageSize = 30
                     'geekblue'
                   }
                 >
-                  { item.top ? '置顶' : item.good ? '精华' : tabSchema[item.tab] }
+                  { item.top ? '置顶' : item.good ? '精华' : tabSchema[item.tab] ? tabSchema[item.tab] : '分享' }
                 </Tag>
                 <Link to={`/detail/${item.id}`}>{item.title}</Link>
               </div>

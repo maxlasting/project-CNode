@@ -1,27 +1,35 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { Row, Col, Menu, Dropdown, Icon, Button, Avatar } from 'antd'
 import style from './style'
-import { menuSchema, linkSchema } from '../../utils/schema'
+import { menuSchema, linkSchema, menuItemSchema } from '../../utils/schema'
 import { userLogOut } from '../../redux/login.reducer'
 
 @connect(
   state => state.loginReducer,
   { userLogOut }
 )
+@withRouter
 class MainHeader extends Component {
-
+  state = {
+    initKey: menuItemSchema[this.props.history.location.pathname]
+  }
+  
+  menuClick = (e) => {
+    this.setState({
+      initKey: menuItemSchema[this.props.history.location.pathname]
+    })
+  }
+  
   render() {
     const { isLogin, avatar_url, loginname } = this.props
+    
     const longinMenu = (
       <Dropdown 
         overlay={
           <Menu style={style.loginMenu}>
             <Menu.Item>
-              {/* <span style={style.userStyle}>
-                发布话题
-              </span> */}
               <Link to='/write'>
                 发布话题
               </Link>
@@ -98,6 +106,8 @@ class MainHeader extends Component {
               mode="horizontal"
               selectable={false}
               style={style.menuStyle}
+              selectedKeys={[this.state.initKey]}
+              onClick={this.menuClick}
             >
               {
                 Object.keys(menuSchema).map((itemKey) => (
@@ -139,7 +149,6 @@ class MainHeader extends Component {
       </header>
     )
   }
-
 }
 
 export default MainHeader

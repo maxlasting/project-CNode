@@ -12,7 +12,7 @@ module.exports = (req, res) => {
   SessionModel.findById(sId, (err, doc) => {
     if (err) return res.json({success: false, err_msg: err.message})
     
-    if (needtoken && !doc) {
+    if (needtoken === 'yes' && !doc) {
       res.status(401).json({
         success: false,
         msg: '未登录'

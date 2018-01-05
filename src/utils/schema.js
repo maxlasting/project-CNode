@@ -4,6 +4,12 @@ export const menuSchema = {
   'info-circle-o': '关于',
 }
 
+export const menuItemSchema = {
+  '/index': 'home',
+  '/book': 'book',
+  '/info': 'info-circle-o',
+}
+
 export const linkSchema = {
   home: '/index',
   book: '/book',

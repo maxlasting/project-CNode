@@ -1,15 +1,31 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import axios from 'axios'
 import { Row, Col, Select, Input, Divider, message } from 'antd'
 import Markdown from '../../components/markdown'
 
 const Option = Select.Option
 
+@connect(
+  (state) => (state.loginReducer)
+)
 class Write extends Component {
   state = {
     tab: '',
     title: '',
     loading: false,
+  }
+  
+  componentWillMount() {
+    if (!this.props.isLogin) {
+      this.props.history.replace('/')
+    }
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.isLogin) {
+      this.props.history.replace('/')
+    }
   }
   
   handleSubmit = (content) => {
@@ -25,7 +41,7 @@ class Write extends Component {
       return
     }
     
-    if (!tab) return message.info('请选择板块')
+    if ( tab !== 'dev' ) return message.info('目前只能发到测试板块!')
     
     this.setState({loading: true})
     axios.post('/api/topics?needtoken=yes', {
@@ -48,7 +64,7 @@ class Write extends Component {
   
   render() {
     return (
-      <Row style={{minWidth: 580}}>
+      <Row style={{flex: 1, minWidth: 580}}>
         <Col xxl={4} xl={3} lg={3} md={2} xs={2} sm={1} />
         <Col xxl={16} xl={18} lg={18} md={20} xs={20} sm={22}>
           <h2 style={{marginBottom: 20}}>发布话题</h2>
