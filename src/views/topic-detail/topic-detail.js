@@ -45,7 +45,7 @@ class TopicDetail extends Component {
     this.setState({
       loading: true
     }, () => {
-      axios.get(`/api/topic/${topic_id}?needtoken='${needtoken}`).then((res) => {
+      axios.get(`/cnodeapi/topic/${topic_id}?needtoken=${needtoken}`).then((res) => {
         if (res.status === 200 && res.data.success) {
           this.setState({
             ...res.data.data,
@@ -60,7 +60,7 @@ class TopicDetail extends Component {
   }
   
   topicCollect = (topic_id) => {
-    axios.post('/api/topic_collect/collect?needtoken=true', {
+    axios.post('/cnodeapi/topic_collect/collect?needtoken=true', {
       topic_id
     }).then((res) => {
       if (res.status === 200 && res.data.success) {
@@ -74,7 +74,7 @@ class TopicDetail extends Component {
   }
   
   topicDeCollect = (topic_id) => {
-    axios.post('/api/topic_collect/de_collect?needtoken=true', {
+    axios.post('/cnodeapi/topic_collect/de_collect?needtoken=true', {
       topic_id
     }).then((res) => {
       if (res.status === 200 && res.data.success) {
@@ -97,7 +97,7 @@ class TopicDetail extends Component {
   }
   
   topicReply = (topic_id, content, reply_id = '') => {
-    axios.post(`/api/topic/${topic_id}/replies?needtoken=true`, {
+    axios.post(`/cnodeapi/topic/${topic_id}/replies?needtoken=true`, {
       content,
       reply_id,
     }).then((res) => {
@@ -148,7 +148,7 @@ class TopicDetail extends Component {
     )
     
     return (
-      <Row>
+      <Row style={{flex: 1}}>
         <Helmet>
           <title>{title}</title>
         </Helmet>

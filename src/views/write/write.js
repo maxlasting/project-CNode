@@ -44,7 +44,7 @@ class Write extends Component {
     if ( tab !== 'dev' ) return message.info('目前只能发到测试板块!')
     
     this.setState({loading: true})
-    axios.post('/api/topics?needtoken=yes', {
+    axios.post('/cnodeapi/topics?needtoken=yes', {
       title,
       tab,
       content,

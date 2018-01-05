@@ -43,7 +43,7 @@ export function loginReducer(state = init, action) {
 export function userLogin({name = '', password = '', check = false} = {}) {
   return (dispatch) => {
     dispatch({type: LOADING})
-    axios.post('/api/user/login', {
+    axios.post('/cnodeapi/user/login', {
       name,
       password,
       check
@@ -68,7 +68,7 @@ export function userLogin({name = '', password = '', check = false} = {}) {
 export function userLogOut() {
   return (dispatch) => {
     dispatch({type: LOADING})
-    axios.post('/api/user/logout').then((res) => {
+    axios.post('/cnodeapi/user/logout').then((res) => {
       if (res.status === 200 && res.data.success) {
         dispatch({type: LOGOUT_SUCC, payload: res.data})
       } else {

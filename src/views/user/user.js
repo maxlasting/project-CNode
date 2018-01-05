@@ -42,8 +42,8 @@ class User extends Component {
   }
   
   getUserInfo = (name) => {
-    const info = axios.get('/api/user/' + name)
-    const collect = axios.get('/api/topic_collect/' + name)
+    const info = axios.get('/cnodeapi/user/' + name)
+    const collect = axios.get('/cnodeapi/topic_collect/' + name)
     
     this.setState({loading: true})
     

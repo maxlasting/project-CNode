@@ -33,7 +33,7 @@ export function registerReducer(state = init, action) {
 export function userRegister({name, password, accesstoken}) {
   return (dispatch) => {
     dispatch({type: LOADING})
-    axios.post('/api/user/register', {name, password, accesstoken})
+    axios.post('/cnodeapi/user/register', {name, password, accesstoken})
       .then((res) => {
         console.log(res.data)
         if (res.status === 200 && res.data.success) {

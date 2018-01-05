@@ -66,7 +66,7 @@ class Register extends Component {
     if(!value) return cb('用户名不正确!')
     
     this.checkedTimer = setTimeout(() => {
-      axios.post('/api/user/register', {name: value, check: true})
+      axios.post('/cnodeapi/user/register', {name: value, check: true})
       .then((res) => {
         if(res.status === 200 && res.data.success){
           cb()

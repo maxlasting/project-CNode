@@ -33,7 +33,7 @@ export function topicListReducer(state = init, action) {
 export function getTopicList({tab = 'all', limit = 30, page = 1} = {}) {
   return (dispatch) => {
     dispatch({ type: LOADING })
-    axios.get('/api/topics', {
+    axios.get('/cnodeapi/topics', {
       params: {
         tab,
         limit,
