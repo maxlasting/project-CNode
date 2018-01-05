@@ -148,7 +148,7 @@ class TopicDetail extends Component {
     )
     
     return (
-      <Row>
+      <Row style={{flex: 1}}>
         <Helmet>
           <title>{title}</title>
         </Helmet>
