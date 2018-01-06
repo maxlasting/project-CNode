@@ -168,6 +168,7 @@ class TopicDetail extends Component {
             loading={loading} 
             replies={replies} 
             handleSubmit={this.handleSubmit} 
+            isLogin={isLogin}
           />
         </Col>
         <Col xxl={4} xl={3} lg={3} md={2} xs={2} sm={0} />
