@@ -87,7 +87,7 @@ class User extends Component {
     )
     
     return (
-      <Row style={{padding: '0 5vw', flex: 1}}>
+      <Row style={{padding: '0 5vw'}}>
         <Helmet>
           <title>用户中心</title>
         </Helmet>
