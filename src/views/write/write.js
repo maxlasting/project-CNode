@@ -64,7 +64,7 @@ class Write extends Component {
   
   render() {
     return (
-      <Row style={{flex: 1, minWidth: 580}}>
+      <Row style={{minWidth: 580}}>
         <Col xxl={4} xl={3} lg={3} md={2} xs={2} sm={1} />
         <Col xxl={16} xl={18} lg={18} md={20} xs={20} sm={22}>
           <h2 style={{marginBottom: 20}}>发布话题</h2>

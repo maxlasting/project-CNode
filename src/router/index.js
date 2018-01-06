@@ -12,7 +12,7 @@ import Study from '../views/study/study'
 import Page404 from '../views/page-404/page-404'
 
 export default () => (
-  <div style={{flex: 1, padding: '20px 0 40px', display: 'flex'}}>
+  <div style={{flex: 1, padding: '20px 0 40px'}}>
     <Switch>
       <Route path="/" exact render={() => (<Redirect to="/index" />)} />,
       <Route path="/index" component={TopicIndex} />
@@ -23,7 +23,7 @@ export default () => (
       <Route path="/write" component={Write} />
       <Route path="/info" component={About} />
       <Route path="/book" component={Study} />
-      <Route component={Page404} />
+      <Route component={TopicIndex} />
     </Switch>
   </div>
 )

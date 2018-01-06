@@ -8,7 +8,7 @@ const style = {
 }
 
 export default () => (
-  <Row style={{flex: 1}}>
+  <Row>
     <Col xxl={4} xl={3} lg={3} md={2} xs={2} sm={1} />
     <Col xxl={16} xl={18} lg={18} md={20} xs={20} sm={22}>
       <Card title="关于" bordered={false} style={style.card}>

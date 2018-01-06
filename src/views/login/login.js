@@ -46,7 +46,7 @@ class Login extends Component {
   render() {
     const { getFieldDecorator } = this.props.form
     return (
-      <Row style={{flex: 1}}>
+      <Row>
         <Col xxl={4} xl={3} lg={3} md={2} xs={2} sm={0} />
         <Col xxl={16} xl={18} lg={18} md={20} xs={20} sm={24} style={style.root}>
           <h2 style={style.title}>用户登录</h2>
