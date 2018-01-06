@@ -4,7 +4,7 @@ import { Card, Avatar, List, Divider } from 'antd'
 import Markdown from '../../components/markdown'
 import formatDate from '../../utils/formatDate'
 
-export default ({replyLen, loading, replies, handleSubmit}) => (
+export default ({replyLen, loading, replies, handleSubmit, isLogin}) => (
   <div>
     <Card
       type="inner"
@@ -34,8 +34,8 @@ export default ({replyLen, loading, replies, handleSubmit}) => (
           </List.Item>
         )}
       />
-      <Divider />
-      <Markdown handleSubmit={handleSubmit} height={260} />
+      {isLogin ? <Divider /> : null}
+      {isLogin ? <Markdown handleSubmit={handleSubmit} height={260} /> : null}
     </Card>
   </div>
 )
