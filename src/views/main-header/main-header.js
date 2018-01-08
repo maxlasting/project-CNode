@@ -22,6 +22,10 @@ class MainHeader extends Component {
     })
   }
   
+  setMenuKey = () => {
+    this.setState({initKey: ''})
+  }
+  
   render() {
     const { isLogin, avatar_url, loginname } = this.props
     
@@ -125,12 +129,12 @@ class MainHeader extends Component {
                 longinMenu :
                 <div>
                   <Link to="/login">
-                    <Button style={{marginRight: 2}}>
+                    <Button style={{marginRight: 2}} onClick={this.setMenuKey}>
                       <Icon type="user" /> 登陆
                     </Button>
                   </Link>
                   <Link to="/register">
-                    <Button style={{marginLeft: 2}}>
+                    <Button style={{marginLeft: 2}} onClick={this.setMenuKey}>
                       <Icon type="flag" /> 注册
                     </Button>
                   </Link>
