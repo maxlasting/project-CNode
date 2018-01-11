@@ -13,7 +13,7 @@ import { userLogOut } from '../../redux/login.reducer'
 @withRouter
 class MainHeader extends Component {
   state = {
-    initKey: menuItemSchema[this.props.history.location.pathname]
+    initKey: menuItemSchema[this.props.history.location.pathname] || 'home'
   }
   
   menuClick = (e) => {
